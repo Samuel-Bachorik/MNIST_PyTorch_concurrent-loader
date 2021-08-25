@@ -58,7 +58,3 @@ if __name__ == '__main__':
     PATH = './MNIST-MY.pth'
     torch.save(model.state_dict(), PATH)
     print("Model saved")
-
-
-
-
