@@ -16,7 +16,7 @@ testing_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST 
 
 if __name__ == '__main__':
     loader = ImagesLoader(128)
-    dataset = loader.get_dataset(testing_paths,training=False)
+    dataset = loader.get_dataset(testing_paths, training=False)
     model = Model()
     PATH = "./MNIST-MY.pth"
     model.load_state_dict(torch.load(PATH))
