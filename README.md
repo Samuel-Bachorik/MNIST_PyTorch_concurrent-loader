@@ -16,7 +16,7 @@ Model architecture
    - `4x Conv2d` layers with `4x ReLu` activation functions
    - `1x Linear` layer with `LogSoftmax`
 # Model accuracy 
-Model accuracy is 99.65% with these training parameters
+Model accuracy is `99.65%` with these training parameters
    - Optimizer = Adam
    - Learning rate = 0.0001
    - Epochs = 50
