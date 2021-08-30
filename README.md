@@ -1,12 +1,12 @@
-# MNIST_PyTorch_concurrent-loader
-PyTorch MNIST jpg. images project.<br/>
+# PyTorch MNIST training with custom loader and model
 
 # Loader
 Developed my own dataset loader for 60 000 MNIST training and 10 000 testing images.<br/>
 This loader is running concurrently with Python multiprocesing library. -Thanks to this we have massive speed up<br/>
 <br/>
 Loader can return trainig or testing dataset. <br/>
-You can choose it in `get_dataset` function, training to `True` or `False`. `training = True` will return training dataset <br/>
+You can choose it in `get_dataset` function, training to `True` or `False`. `training = True` will return training dataset. <br/>
+<br/>
 `loader.get_dataset(training_paths, training=True)`<br/>
 # Model
 AI model created with `PyTorch`.<br/>
