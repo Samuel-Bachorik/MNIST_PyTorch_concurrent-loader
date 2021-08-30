@@ -3,44 +3,54 @@ from torch import nn, optim
 from mnist_model import Model
 from dataset_loader import ImagesLoader
 
-paths = []
-paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/0/")
-paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/1/")
-paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/2/")
-paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/3/")
-paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/4/")
-paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/5/")
-paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/6/")
-paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/7/")
-paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/8/")
-paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/9/")
+training_paths = []
+training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/0/")
+training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/1/")
+training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/2/")
+training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/3/")
+training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/4/")
+training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/5/")
+training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/6/")
+training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/7/")
+training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/8/")
+training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/9/")
 
-
+#Weight and bias initialization
+def weight_init(m):
+    if isinstance(m, nn.Conv2d):
+        print('Initializing conv2d weight and bias ')
+        torch.nn.init.orthogonal_(m.weight)
+        torch.nn.init.zeros_(m.bias)
 
 if __name__ == '__main__':
+    #Load dataset
+    loader = ImagesLoader(128)
+    dataset = loader.get_dataset(training_paths, training=True)
 
-    loader = ImagesLoader(128,paths)
-    dataset = loader.get_dataset()
-
+    #Load model
     model = Model()
+    #Apply weight and bias initialization
+    model.apply(weight_init)
+
+    #Set model device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model.to(device)
 
+    # Defíne loss function and optimizer
     criterion = nn.NLLLoss()
-
     optimizer = optim.Adam(model.parameters(), lr=0.0001)
 
-    lossum = 0
-    epoch = 10
+    lossum,epoch= 0, 50
+
     print("Training started...")
+    #Epoch loop
     for i in range(epoch):
-
+        #Batch loop
         for images, labels in (zip(*dataset)):
-
+            #Put images and labels to model device
             images = images.to(model.device)
             labels = labels.to(model.device)
 
-            iamges, labels = images.cuda(), labels.cuda()
             y = model(images)
 
             loss = criterion(y, labels)
@@ -55,6 +65,7 @@ if __name__ == '__main__':
         lossum = 0
 
 
+    #Save model
     PATH = './MNIST-MY.pth'
     torch.save(model.state_dict(), PATH)
     print("Model saved")
