@@ -6,18 +6,18 @@ import torch
 import concurrent.futures
 import math
 class ImagesLoader:
-    def __init__(self, batch,paths):
+    def __init__(self, batch):
         self.batch = batch
-        self.paths = paths
 
-    def loop(self):
+    def loop(self,paths):
+
         labels0 = numpy.zeros(self.batch, dtype=numpy.int64)
         imgs = numpy.zeros((self.batch, 1, 28, 28), dtype=numpy.float32)
 
         for i in range(self.batch):
 
             rand_path = random.randint(0, 9)
-            path = self.paths[rand_path]
+            path = paths[rand_path]
             labels0[i] = rand_path
 
             f = os.listdir(path)
@@ -34,16 +34,22 @@ class ImagesLoader:
 
         return labels0, imgs
 
-    def get_dataset(self):
+    def get_dataset(self,paths,training):
         print("Loading dataset...")
-        epoch = 60000/self.batch
+        if training == True:
+            epoch = 60000/self.batch
+            print("Loading training dataset")
+        else:
+            epoch = 10000/self.batch
+            print("Loading testing dataset")
+
         imgs2 = numpy.zeros((math.ceil(epoch), self.batch, 1, 28, 28), dtype=numpy.float32)
         labels = numpy.zeros((math.ceil(epoch), self.batch), dtype=numpy.int64)
 
         with concurrent.futures.ProcessPoolExecutor() as executor:
             results = [None] * math.ceil(epoch)
             for x in range(math.ceil(epoch)):
-                results[x] = executor.submit(self.loop)
+                results[x] = executor.submit(self.loop,paths)
 
 
             counter = 0
