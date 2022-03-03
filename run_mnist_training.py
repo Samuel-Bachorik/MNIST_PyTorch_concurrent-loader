@@ -4,16 +4,10 @@ from mnist_model import Model
 from dataset_loader import ImagesLoader
 
 training_paths = []
-training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/0/")
-training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/1/")
-training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/2/")
-training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/3/")
-training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/4/")
-training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/5/")
-training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/6/")
-training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/7/")
-training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/8/")
-training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/9/")
+
+#Append all training folders
+for i in range(10):
+    training_paths.append("C:/Users/Samuel/PycharmProjects/pythonProject/MNIST/MNIST - JPG - training/{}/".format(i))
 
 #Weight and bias initialization
 def weight_init(m):
